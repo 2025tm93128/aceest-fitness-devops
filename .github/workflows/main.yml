@@ -34,3 +34,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t aceest-fitness-app:latest .
+
+      - name: Run Pytest inside Docker container
+        run: docker run --rm aceest-fitness-app:latest python -m pytest -v
