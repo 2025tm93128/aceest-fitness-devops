@@ -7,3 +7,6 @@ __pycache__/
 
 # Local AI editor files
 .codex/
+
+# Test coverage output
+.coverage
