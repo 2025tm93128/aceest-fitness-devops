@@ -1,7 +1,9 @@
+.git
+.github
 .venv
 __pycache__
 .pytest_cache
+.coverage
+coverage.xml
 *.pyc
-.git
-.gitignore
-Assignment-Evidence
+Assignment-2-Evidence

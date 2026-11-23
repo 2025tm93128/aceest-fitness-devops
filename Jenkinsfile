@@ -1,14 +1,14 @@
 pipeline {
     agent any
-
+    environment {
+        IMAGE_NAME = 'aceest-fitness'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
     stages {
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+            steps { checkout scm }
         }
-
-        stage('Set Up Python Environment') {
+        stage('Set Up Python') {
             steps {
                 sh '''
                     python3 -m venv .venv
@@ -17,35 +17,39 @@ pipeline {
                 '''
             }
         }
-
-        stage('Validate Python Syntax') {
+        stage('Validate and Test') {
             steps {
                 sh '.venv/bin/python -m py_compile app.py'
+                sh '.venv/bin/python -m pytest -q --cov=app --cov-report=term --cov-report=xml'
             }
         }
-
-        stage('Run Pytest Tests') {
+        stage('SonarQube Analysis') {
             steps {
-                sh '.venv/bin/python -m pytest -v'
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Quality Gate') {
             steps {
-                sh 'docker build -t aceest-fitness-app:latest .'
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        stage('Build and Test Docker Image') {
+            steps {
+                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                sh 'docker run --rm ${IMAGE_NAME}:${IMAGE_TAG} python -m pytest -q'
             }
         }
     }
-
     post {
-        success {
-            echo 'ACEest Fitness pipeline completed successfully.'
-        }
-        failure {
-            echo 'ACEest Fitness pipeline failed. Review the stage logs.'
-        }
         always {
+            archiveArtifacts artifacts: 'coverage.xml', allowEmptyArchive: true
             cleanWs()
         }
+        success { echo 'ACEest Assignment 2 pipeline completed successfully.' }
+        failure { echo 'Pipeline failed. Review the failed stage.' }
     }
 }
