@@ -1,0 +1,11 @@
+ACEest Fitness DevOps Assignment 2
+SonarQube Project Key: aceest-fitness-devops
+Application Version: 2.0.0
+Quality Gate: PASSED
+Bugs: 0
+Vulnerabilities: 0
+Security Hotspots: 1
+Code Smells: 1
+Coverage: 85.7%
+Duplicated Lines: 0.0%
+Analysis executed through Jenkins build #1 in Prayogshala.

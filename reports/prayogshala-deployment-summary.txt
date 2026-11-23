@@ -1,0 +1,15 @@
+ACEest Fitness DevOps Assignment 2
+GitHub: https://github.com/2025tm93128/aceest-fitness-devops
+Docker Hub: https://hub.docker.com/r/2025tm93128/aceest-fitness-devops
+Jenkins Job: ACEest-Assignment-2-Pipeline
+Jenkins Build: #1 SUCCESS
+SonarQube Quality Gate: PASSED
+Minikube Endpoint: http://192.168.49.2:31106
+Deployment Strategies Validated:
+- Base Kubernetes deployment
+- Rolling Update
+- Rollback
+- Blue-Green
+- Canary
+- Shadow
+- A/B Testing
