@@ -4,3 +4,9 @@ __pycache__/
 *.pyc
 .env
 .vscode/
+
+# Local AI editor files
+.codex/
+
+# Test coverage output
+.coverage
