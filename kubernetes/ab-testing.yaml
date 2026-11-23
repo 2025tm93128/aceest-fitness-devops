@@ -1,3 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aceest-version-a
+  namespace: aceest
+spec:
+  selector:
+    app: aceest-fitness
+    slot: blue
+  ports:
+    - port: 80
+      targetPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aceest-version-b
+  namespace: aceest
+spec:
+  selector:
+    app: aceest-canary
+    track: canary
+  ports:
+    - port: 80
+      targetPort: 5000
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,7 +39,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: aceest-blue-green
+                name: aceest-version-a
                 port:
                   number: 80
 ---
@@ -36,6 +62,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: aceest-canary
+                name: aceest-version-b
                 port:
                   number: 80
